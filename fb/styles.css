@@ -570,6 +570,8 @@ p {
     align-items: center;
     justify-content: center;
     font-size: 1rem;
+    flex-shrink: 0;
+    /* Prevent compression */
 }
 
 
@@ -705,35 +707,48 @@ p {
     padding: 0.4rem 0.8rem;
     white-space: nowrap;
     z-index: 10;
+    width: max-content;
+    /* Force growth */
+    max-width: 90vw;
+    /* Prevent screen overflow */
 }
 
 .sn-mobile-2 {
     left: 10%;
-    transform: none;
-    top: 20px;
-    bottom: auto;
-    animation: float 5s ease-in-out infinite;
-    z-index: 9;
-    scale: 0.9;
+    transform: translateX(-50%);
+    top: auto;
+    bottom: -10px;
+    /* Overlap slightly */
+    min-width: 160px;
+    padding: 0.4rem 0.8rem;
+    white-space: nowrap;
+    z-index: 10;
 }
 
 .sn-mobile-3 {
-    left: 70%;
-    right: auto;
-    margin-left: -70px;
+    left: 50%;
+    transform: translateX(-50%);
     width: fit-content;
-    transform: none;
     top: auto;
-    bottom: 40px;
+    bottom: 45px;
+    /* Stacked tighter */
     animation: float 4s ease-in-out infinite 1s;
     z-index: 9;
     scale: 0.95;
+    z-index: 9;
+    scale: 0.95;
+    margin-left: 0;
+    width: max-content;
+    /* Explicitly set */
+    max-width: 90vw;
 }
 
 .hero-product-mobile {
     position: relative;
     /* Ensure it has space for the absolute notification */
-    padding-bottom: 20px;
+    padding-bottom: 40px;
+    /* Reduced space */
+    margin-bottom: 10px;
 }
 
 /* Sections General */
@@ -1169,13 +1184,15 @@ p {
 /* Responsive */
 @media (max-width: 768px) {
     h1 {
-        font-size: 1.5rem;
-        /* Reduced for mobile */
+        font-size: 1.25rem;
+        /* Further reduced for mobile */
+        margin-bottom: 0.5rem;
     }
 
     .highlight-commission {
-        font-size: 2rem;
-        /* Prominent on mobile */
+        font-size: 1.5rem;
+        /* Adjusted for balance */
+        margin-top: 0.2rem;
     }
 
     .hero-text h1 {
@@ -1203,6 +1220,8 @@ p {
     .hero-actions-wrapper {
         align-items: center;
         width: 100%;
+        margin-top: 1rem;
+        margin-bottom: 2rem;
     }
 
     .hero-cta {
@@ -1228,6 +1247,24 @@ p {
 
     .form-grid {
         grid-template-columns: 1fr;
+    }
+
+    /* Mobile Badges Styles */
+    /* Mobile Badges Styles */
+    .mobile-badge-gold {
+        left: -10px !important;
+        bottom: auto !important;
+        top: -40px !important;
+        transform: scale(0.6) rotate(-10deg) !important;
+        z-index: 15;
+    }
+
+    .mobile-badge-commission {
+        right: -15px !important;
+        top: -20px !important;
+        transform: scale(0.7) rotate(5deg) !important;
+        z-index: 15;
+        white-space: nowrap;
     }
 
     .form-wrapper {
@@ -1298,5 +1335,106 @@ p {
     .benefits .card p {
         font-size: 0.95rem;
         margin-top: 0.5rem;
+    }
+}
+
+/* Scroll Notification Fixed */
+.scroll-notification {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-150%);
+    /* Start hidden above */
+    background: #fff;
+    /* White base */
+    color: #000;
+    padding: 0.5rem 5rem 0.5rem 0.8rem;
+    /* Extra right padding for absolute timestamp */
+    /* Matches static notifs */
+    border-radius: 8px;
+    /* Matches static notifs radius */
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    /* Strong shadow */
+    z-index: 9999;
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    min-width: 180px;
+    /* Consistent width */
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.scroll-notification.active {
+    transform: translateX(-50%) translateY(0);
+}
+
+.scroll-notification .sn-icon {
+    width: 32px;
+    height: 32px;
+    background: #000;
+    color: #fff;
+    border-radius: 6px;
+    /* Squircle */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+    box-shadow: none;
+}
+
+.scroll-notification .sn-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1.1;
+    text-align: left;
+}
+
+.scroll-notification .sn-label {
+    font-weight: 700;
+    font-size: 0.7rem;
+    color: #00e600;
+    /* Bright Green */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0;
+}
+
+.scroll-notification .sn-price {
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: #000;
+    text-shadow: none;
+}
+
+.scroll-notification .sn-time {
+    position: absolute;
+    top: 6px;
+    right: 12px;
+    font-size: 0.6rem;
+    color: #999;
+    font-weight: 500;
+}
+
+/* Desktop Positioning */
+@media (min-width: 769px) {
+    .scroll-notification {
+        left: auto;
+        right: 20px;
+        transform: translateY(-150%);
+    }
+
+    .scroll-notification.active {
+        transform: translateY(0);
+    }
+}
+
+/* Mobile Tweak for Fixed Notif */
+@media (max-width: 768px) {
+    .scroll-notification {
+        width: 90%;
+        top: 15px;
     }
 }
